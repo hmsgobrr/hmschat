@@ -7,7 +7,7 @@ import { io, Socket } from 'socket.io-client'
 })
 export class WebsocketService {
   socket!: Socket;
-  readonly uri: string = 'ws://localhost:8080';
+  readonly uri: string = '/'; // TODO: Change me pls
 
   constructor() {
     this.socket = io(this.uri);
