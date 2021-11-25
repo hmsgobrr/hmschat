@@ -33,12 +33,15 @@ export class AppComponent implements OnInit {
     this.wsService.listen('chat-message').subscribe((message) => {
       console.log(message);
       this.messages.push(message as MessageSchema);
+      this.scrollDown();
     });
     this.wsService.listen('user-connected').subscribe((user) => {
       this.messages.push({ content: user+" Joined", sender: "SERVER" });
+      this.scrollDown();
     });
     this.wsService.listen('user-disconnected').subscribe((user) => {
       this.messages.push({ content: user+" Disconnected", sender: "SERVER" });
+      this.scrollDown();
     });
   }
 
@@ -50,6 +53,12 @@ export class AppComponent implements OnInit {
     this.messages.push({ content: messageInput.value, sender: this.user });
     messageInput.value = '';
 
+    this.scrollDown();
+
+    return false;
+  }
+
+  scrollDown() {
     setTimeout(() => {
       const messagesDiv = this.messagesDiv?.nativeElement as HTMLDivElement
       messagesDiv.scroll({
@@ -58,8 +67,6 @@ export class AppComponent implements OnInit {
         behavior: 'smooth'
       })
     }, 0);
-
-    return false;
   }
 }
 
